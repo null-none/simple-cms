@@ -1,0 +1,53 @@
+from __future__ import unicode_literals
+
+from django.contrib import admin
+from django import forms
+
+from modeltranslation.admin import TranslationAdmin
+from redactor.widgets import RedactorEditor
+
+from .models import ProviderOrder, Contact, Page, InternetSubscribe
+
+
+class PageAdminForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        widgets = {
+           'short_text': RedactorEditor(),
+        }
+
+class PageAdmin(TranslationAdmin):
+    class Media:
+        js = (
+            'modeltranslation/js/force_jquery.js',
+            'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.24/jquery-ui.min.js',
+            'modeltranslation/js/tabbed_translation_fields.js',
+            'js/redactor.js'
+        )
+        css = {
+            'screen': ('modeltranslation/css/tabbed_translation_fields.css',),
+        }
+        form = PageAdminForm
+
+admin.site.register(Page, PageAdmin)
+
+
+class InternetSubscribeAdmin(admin.ModelAdmin):
+    list_display = ('address', 'email', 'type')
+    search_fields = ['address', 'email']
+
+admin.site.register(InternetSubscribe, InternetSubscribeAdmin)
+
+
+class ProviderOrderAdmin(admin.ModelAdmin):
+    list_display = ('your_name', 'email', 'provider_name', 'created')
+    search_fields = ['your_name', 'email', 'provider_name']
+
+admin.site.register(ProviderOrder, ProviderOrderAdmin)
+
+
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('email', 'message', 'created')
+    search_fields = ['email', 'message']
+
+admin.site.register(Contact, ContactAdmin)
