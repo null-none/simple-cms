@@ -6,7 +6,7 @@ from django import forms
 from modeltranslation.admin import TranslationAdmin
 from redactor.widgets import RedactorEditor
 
-from .models import ProviderOrder, Contact, Page, InternetSubscribe
+from .models import Contact, Page
 
 
 class PageAdminForm(forms.ModelForm):
@@ -30,20 +30,6 @@ class PageAdmin(TranslationAdmin):
         form = PageAdminForm
 
 admin.site.register(Page, PageAdmin)
-
-
-class InternetSubscribeAdmin(admin.ModelAdmin):
-    list_display = ('address', 'email', 'type')
-    search_fields = ['address', 'email']
-
-admin.site.register(InternetSubscribe, InternetSubscribeAdmin)
-
-
-class ProviderOrderAdmin(admin.ModelAdmin):
-    list_display = ('your_name', 'email', 'provider_name', 'created')
-    search_fields = ['your_name', 'email', 'provider_name']
-
-admin.site.register(ProviderOrder, ProviderOrderAdmin)
 
 
 class ContactAdmin(admin.ModelAdmin):
